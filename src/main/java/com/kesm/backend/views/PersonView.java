@@ -10,6 +10,7 @@ import com.kesm.backend.services.AddressService;
 import com.kesm.backend.services.PersonService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
@@ -72,6 +73,7 @@ public class PersonView extends VerticalLayout implements KeyNotifier {
 		add(
 			new HorizontalLayout(
 				new VerticalLayout(
+						new Text( "Personal Data" ),
 						new HorizontalLayout( firstName, lastName ),
 						new HorizontalLayout( birthPlace, birthDate ),
 						new HorizontalLayout( idCard, taxNumber ) ),
@@ -175,7 +177,7 @@ public class PersonView extends VerticalLayout implements KeyNotifier {
 		addressBinder.bind( street, Address::getStreet, Address::setStreet );
 		addressBinder.bind( postalCode, Address::getPostalCode, Address::setPostalCode );
 
-		grid.setHeight( "100px" );
+		grid.setHeight( "200px" );
 		grid.addColumn( Contact::getContact ).setHeader( "Contact" );
 		grid.addColumn( c -> c.getContactType().getTitle() ).setHeader( "Type" );
 		grid.asSingleSelect().addValueChangeListener( e ->
@@ -184,6 +186,7 @@ public class PersonView extends VerticalLayout implements KeyNotifier {
 				dialog.editContact( null, grid, perm ? this.permAddress : this.tempAddress ) );
 
 		return new VerticalLayout(
+				new Text( perm ? "Permanent Residence" : "Temporary Residence" ),
 				new HorizontalLayout( city, postalCode ),
 				street, grid, btnDialog );
 	}

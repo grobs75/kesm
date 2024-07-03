@@ -32,10 +32,6 @@ public class AddressService {
             }
         } else if ( address != null && address.getId() != null && StringUtils.isEmpty( address.getCity() ) ) {
             addressRepository.delete( address );
-
-            if ( contact != null ) {
-                contactRepository.deleteAll( contact );
-            }
         }
     }
 }
