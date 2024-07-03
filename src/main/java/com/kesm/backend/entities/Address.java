@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 public class Address {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
 

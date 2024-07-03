@@ -23,11 +23,11 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
+import java.util.Locale;
 
 @SpringComponent
 @UIScope
 public class PersonView extends VerticalLayout implements KeyNotifier {
-
 	private final PersonRepository repository;
 	private final PersonService personService;
 	private final AddressService addressService;
@@ -67,12 +67,13 @@ public class PersonView extends VerticalLayout implements KeyNotifier {
 		this.addressService = addressService;
 		this.contactRepository = contactRepository;
 		this.contactTypeRepository = contactTypeRepository;
+		this.birthDate.setLocale( new Locale("hu", "HU") );
 
 		add(
 			new HorizontalLayout(
 				new VerticalLayout( firstName, lastName, idCard, taxNumber, birthPlace, birthDate ),
-				getAddressFields( this.permAddressBinder, this.permGrid, this.permAddress ),
-				getAddressFields( this.tempAddressBinder, this.tempGrid, this.tempAddress ) ),
+				getAddressFields( this.permAddressBinder, this.permGrid, true ),
+				getAddressFields( this.tempAddressBinder, this.tempGrid, false ) ),
 			actions );
 
 		bindPersonFields();
@@ -161,7 +162,7 @@ public class PersonView extends VerticalLayout implements KeyNotifier {
 		binder.bind(birthDate, Person::getBirthDate, Person::setBirthDate);
 	}
 
-	private VerticalLayout getAddressFields( Binder<Address> addressBinder, Grid<Contact> grid, Address address ) {
+	private VerticalLayout getAddressFields( Binder<Address> addressBinder, Grid<Contact> grid, boolean perm ) {
 		TextField city = new TextField( "City" );
 		TextField postalCode = new TextField( "Postal Code" );
 		TextField street = new TextField( "Street" );
@@ -174,8 +175,10 @@ public class PersonView extends VerticalLayout implements KeyNotifier {
 		grid.setHeight( "100px" );
 		grid.addColumn( Contact::getContact ).setHeader( "Contact" );
 		grid.addColumn( c -> c.getContactType().getTitle() ).setHeader( "Type" );
-		grid.asSingleSelect().addValueChangeListener( e -> dialog.editContact( e.getValue(), address, grid ));
-		Button btnDialog = new Button("New", e -> dialog.editContact( null, address, grid ));
+		grid.asSingleSelect().addValueChangeListener( e ->
+				dialog.editContact( e.getValue(), grid, perm ? this.permAddress : this.tempAddress ) );
+		Button btnDialog = new Button("New", e ->
+				dialog.editContact( null, grid, perm ? this.permAddress : this.tempAddress ) );
 
 		return new VerticalLayout( city, postalCode, street, grid, btnDialog );
 	}

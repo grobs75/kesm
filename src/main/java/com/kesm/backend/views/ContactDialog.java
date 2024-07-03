@@ -27,8 +27,9 @@ public class ContactDialog extends Dialog {
     private Grid<Contact> grid;
     private final Binder<Contact> binder = new Binder<>( Contact.class );
 
-    public ContactDialog( ContactRepository contactRepository, ContactTypeRepository contactTypeRepository ) {
+    public ContactDialog(ContactRepository contactRepository, ContactTypeRepository contactTypeRepository ) {
         this.contactRepository = contactRepository;
+        this.address = null;
         setHeaderTitle("New Contact");
         ComboBox<ContactType> cbContactType = new ComboBox<>("Contact Type");
         cbContactType.setItems( contactTypeRepository.findAll() );
@@ -49,6 +50,7 @@ public class ContactDialog extends Dialog {
     void delete() {
         if ( this.contact.getId() != null ) {
             this.address.getContacts().remove( this.contact );
+            this.contactRepository.delete( contact );
         }
 
         grid.setItems( this.address.getContacts() );
@@ -56,6 +58,13 @@ public class ContactDialog extends Dialog {
     }
 
     void save() {
+        if ( this.contact.getAddress() == null || this.address.getId() == null ) {
+            close();
+            HomeView.sendNotification( "Save address before!" );
+
+            return;
+        }
+
         if ( this.contact.getId() == null ) {
             this.contactRepository.save( contact );
         }
@@ -80,11 +89,12 @@ public class ContactDialog extends Dialog {
         close();
     }
 
-    public final void editContact( Contact entity, Address address, Grid<Contact> grid ) {
+    public final void editContact( Contact entity, Grid<Contact> grid, Address address ) {
         this.contact = entity != null && entity.getId() != null ?
                 contactRepository.findById( entity.getId() ).get() : new Contact();
 
-        this.contact.setAddress( address );
+        this.address = address;
+        this.contact.setAddress( this.address );
         this.binder.setBean( this.contact );
         this.grid = grid;
 
