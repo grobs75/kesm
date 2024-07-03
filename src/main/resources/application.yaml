@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    username: sa
+    password: Hobbes75
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://;serverName=sql2014;databaseName=kesm;encrypt=true;trustServerCertificate=true
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServerDialect
