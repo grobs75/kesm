@@ -71,7 +71,10 @@ public class PersonView extends VerticalLayout implements KeyNotifier {
 
 		add(
 			new HorizontalLayout(
-				new VerticalLayout( firstName, lastName, idCard, taxNumber, birthPlace, birthDate ),
+				new VerticalLayout(
+						new HorizontalLayout( firstName, lastName ),
+						new HorizontalLayout( birthPlace, birthDate ),
+						new HorizontalLayout( idCard, taxNumber ) ),
 				getAddressFields( this.permAddressBinder, this.permGrid, true ),
 				getAddressFields( this.tempAddressBinder, this.tempGrid, false ) ),
 			actions );
@@ -180,6 +183,8 @@ public class PersonView extends VerticalLayout implements KeyNotifier {
 		Button btnDialog = new Button("New", e ->
 				dialog.editContact( null, grid, perm ? this.permAddress : this.tempAddress ) );
 
-		return new VerticalLayout( city, postalCode, street, grid, btnDialog );
+		return new VerticalLayout(
+				new HorizontalLayout( city, postalCode ),
+				street, grid, btnDialog );
 	}
 }

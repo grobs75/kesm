@@ -8,7 +8,7 @@ INSERT INTO person
 VALUES
   (1, 'Petra', 'Petrovich', '131517AS', '1657329823', 'Szekszárd', '1980-10-30'),
   (2, 'Edit', 'Horváth', '341767SE', '8794538975', 'Budapest', '1990-01-12'),
-  (3, 'Andor', 'Asztalos', '871992CD', '7684328976', 'Martonvásár', '1970-07-10'),
+  (3, 'Andor', 'Horváth', '871992CD', '7684328976', 'Martonvásár', '1970-07-10'),
   (4, 'Károly', 'Németh', '325622SA', '8795490813', 'Siófok', '1980-11-21'),
   (5, 'Dénes', 'Török', '546718RE', '8795293816', 'Szeged', '1990-05-07'),
   (6, 'Csilla', 'Vörös', '654312RT', '2755450823', 'Tatabánya', '1960-12-01')
@@ -31,7 +31,7 @@ VALUES
   (8, 'Hódmezővásárhely', '6800', 'Ady Endre utca 41.', 1, 5),
   (9, 'Komárom', '2900', 'Táncsics Mihály utca 27.', NULL, 6),
   (10, 'Tata', '2890', 'Rákoczi utca 7.', 1, 6)
-SET IDENTITY_INSERT address ON
+SET IDENTITY_INSERT address OFF
 GO
 
 SET IDENTITY_INSERT contact ON
@@ -44,6 +44,6 @@ VALUES
   (3, '+36 30 432 987 7766', 1, 2),
   (4, 'ppetra@gmail.com', 2, 1),
   (5, '+36 30 432 987 7766', 2, 2),
-  (6, 'voroscs33@gmail.com', 6, 1)
+  (6, 'nemethk33@gmail.com', 6, 1)
 SET IDENTITY_INSERT contact OFF
 GO

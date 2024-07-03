@@ -28,8 +28,8 @@ GO
 
 CREATE TABLE address (
   id bigint IDENTITY(1,1) NOT NULL,
-  city nvarchar(250) NULL,
-  postal_code smallint NULL,
+  city nvarchar(250) NOT NULL,
+  postal_code nchar(4) NULL,
   street nvarchar(250) NULL,
   temporary bit NULL,
   person_id bigint NULL,
